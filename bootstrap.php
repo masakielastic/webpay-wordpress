@@ -11,6 +11,8 @@ Text Domain: webpay-checkout
 Domain Path: /languages
 */
 
+require_once( __DIR__ . '/webpay-checkout-settings.php' );
+
 register_deactivation_hook( __FILE__, 'webpay_checkout_deactivate' );
 
 function webpay_checkout_deactivate() {
