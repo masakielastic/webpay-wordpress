@@ -10,3 +10,9 @@ License: GPLv2 or later
 Text Domain: webpay-checkout
 Domain Path: /languages
 */
+
+register_deactivation_hook( __FILE__, 'webpay_checkout_deactivate' );
+
+function () {
+	delete_option( 'webpay-checkout-settings' );
+}
