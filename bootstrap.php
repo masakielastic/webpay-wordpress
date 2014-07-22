@@ -13,6 +13,6 @@ Domain Path: /languages
 
 register_deactivation_hook( __FILE__, 'webpay_checkout_deactivate' );
 
-function () {
+function webpay_checkout_deactivate() {
 	delete_option( 'webpay-checkout-settings' );
 }
