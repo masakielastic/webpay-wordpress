@@ -1,6 +1,6 @@
 <?php
 /*
-Plugin Name: WebPay Simple Checkout
+Plugin Name: Simple WebPay Checkout
 Plugin URI: https://github.com/masakielastic/webpay-wordpress
 Description: Add WebPay Checkout forms using shortcodes.
 Version: 0.1
