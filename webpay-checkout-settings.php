@@ -7,7 +7,9 @@ register_deactivation_hook( __FILE__, function() {
 
 add_action( 'admin_init', 'webpay_checkout_init' );
 add_action( 'admin_menu', function() {
-	$slug = 'webpay-checkout';
+    $settings = webpay_checkout_get_settings();
+    $slug = $settings['option_name'];
+
 	add_options_page( __( 'Settings Page for Simple WebPay Checkout', $slug ),
 		'Simple WebPay Checkout', 'manage_options', $slug, 'webpay_checkout_options_page' );
 } );
@@ -28,7 +30,7 @@ function webpay_checkout_init() {
 	$group = $settings['group'];
 	$section = $settings['section'];
     $option_name = $settings['option_name'];
-	$fields = [ 'test-mode', 'currency', 'test-public-key', 'test-private-key' ];
+	$fields = [ 'test-mode', 'currency', 'test-public-key', 'test-private-key', 'public-key', 'private-key' ];
 
 	register_setting( $group, $option_name );
 	add_settings_section( $section, __( 'Settings for Users', $slug ), 'webpay_checkout_section', $slug );
@@ -45,6 +47,13 @@ function webpay_checkout_init() {
 	);
     add_settings_field( $fields[3], __( 'Private Key For Test Environment', $slug ),
     	'webpay_checkout_test_private_key', $slug, $section, [ 'field_name' => $fields[3] ]);
+
+    add_settings_field( $fields[4], 
+        __( 'Public Key For Production Environment', $slug ),
+        'webpay_checkout_public_key', $slug, $section, [ 'field_name' => $fields[4] ]
+    );
+    add_settings_field( $fields[5], __( 'Private Key For Production Environment', $slug ),
+        'webpay_checkout_private_key', $slug, $section, [ 'field_name' => $fields[5] ]);
 
     settings_fields( $group );
 }
@@ -68,7 +77,7 @@ function webpay_checkout_section() {
 	$slug = $settings['slug'];
     $url = 'https://webpay.jp/settings';
 
-    echo __( 'See <a href="'.$url.'">'.$url.'</a> for the details.', $slug );
+    echo __( 'See <a href="'.$url.'" target="_blank">'.$url.'</a> for the details.', $slug );
 }
 
 function webpay_checkout_test_mode($args) {
@@ -113,6 +122,28 @@ function webpay_checkout_test_public_key($args) {
 
 function webpay_checkout_test_private_key($args) {
 	$settings = webpay_checkout_get_settings();
+    $option_name = $settings['option_name'];
+    $key = $args['field_name'];
+
+    $options = get_option( $option_name );
+    $value = empty( $options[$key] ) ? '' : esc_attr( $options[$key] );
+
+    echo '<input type="text" name="'.$option_name.'['.$key.']" value="'.$value.'" />';
+}
+
+function webpay_checkout_public_key($args) {
+    $settings = webpay_checkout_get_settings();
+    $option_name = $settings['option_name'];
+    $key = $args['field_name'];
+
+    $options = get_option( $option_name );
+    $value = empty( $options[$key] ) ? '' : esc_attr( $options[$key] );
+
+    echo '<input type="text" name="'.$option_name.'['.$key.']" value="'.$value.'" />';
+}
+
+function webpay_checkout_private_key($args) {
+    $settings = webpay_checkout_get_settings();
     $option_name = $settings['option_name'];
     $key = $args['field_name'];
 
