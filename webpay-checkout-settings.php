@@ -32,7 +32,7 @@ function webpay_checkout_init() {
     $option_name = $settings['option_name'];
 	$fields = [ 'test-mode', 'currency', 'test-public-key', 'test-private-key', 'public-key', 'private-key' ];
 
-	register_setting( $group, $option_name );
+	register_setting( $group, $option_name, 'webpay_validate' );
 	add_settings_section( $section, __( 'Settings for Users', $slug ), 'webpay_checkout_section', $slug );
 
 	add_settings_field( $fields[0], __( 'Test Environment', $slug ), 
@@ -71,6 +71,30 @@ function webpay_checkout_options_page() {
     echo '</form>';
 }
 
+function webpay_validate( $input ) {
+
+    $settings = webpay_checkout_get_settings();
+    $slug = $settings['slug'];
+
+    foreach ($input as $key => $value) {
+
+        if (strlen( $value ) >= 100 ) {
+
+            add_settings_error(
+                'webpay-settings['.$key.']',
+                'webpay-settings-texterror',
+                __( 'The length of string cannot be greater than 100', $slug ),
+                'error'
+            );
+
+            $input[$key] = '';
+
+        }
+
+    }
+
+    return $input;
+}
 
 function webpay_checkout_section() {
 	$settings = webpay_checkout_get_settings();
