@@ -7,6 +7,8 @@ register_deactivation_hook( __FILE__, function() {
 
 add_action( 'admin_init', 'webpay_checkout_init' );
 add_action( 'admin_menu', function() {
+
+
     $settings = webpay_checkout_get_settings();
     $slug = $settings['option_name'];
 
@@ -17,6 +19,7 @@ add_action( 'admin_menu', function() {
 function webpay_checkout_get_settings() {
 	return [
 		'slug' => 'webpay-checkout',
+        'nonce' => 'webpay-checkout-nonce',
 		'group' => 'webpay-checkout-settings-group',
 		'section' => 'webpay-checkout-section',
 		'option_name' => 'webpay-checkout-settings'
@@ -54,8 +57,6 @@ function webpay_checkout_init() {
     );
     add_settings_field( $fields[5], __( 'Private Key For Production Environment', $slug ),
         'webpay_checkout_private_key', $slug, $section, [ 'field_name' => $fields[5] ]);
-
-    settings_fields( $group );
 }
 
 function webpay_checkout_options_page() {
@@ -175,4 +176,30 @@ function webpay_checkout_private_key($args) {
     $value = empty( $options[$key] ) ? '' : esc_attr( $options[$key] );
 
     echo '<input type="text" name="'.$option_name.'['.$key.']" value="'.$value.'" />';
+}
+
+
+function webpay_get_public_key()
+{
+    $settings = webpay_checkout_get_settings();
+    $option_name = $settings['option_name'];
+    $options = get_option( $option_name );
+
+    if (isset($options['test-mode']) && $options['test-mode'] === 'on') {
+        return isset($options['test-public-key']) ? $options['test-public-key'] : '';
+    }
+
+    return isset($options['public-key']) ? $options['public-key'] : '';
+}
+
+function webpay_get_private_key() {
+    $settings = webpay_checkout_get_settings();
+    $option_name = $settings['option_name'];
+    $options = get_option( $option_name );
+
+    if (isset($options['test-mode']) && $options['test-mode'] === 'on') {
+        return isset($options['test-private-key']) ? $options['test-private-key'] : '';
+    }
+
+    return isset($options['private-key']) ? $options['private-key'] : '';
 }
