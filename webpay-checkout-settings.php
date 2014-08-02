@@ -204,3 +204,11 @@ function webpay_get_private_key() {
 
     return isset($options['private-key']) ? $options['private-key'] : '';
 }
+
+function webpay_get_currency() {
+    $settings = webpay_checkout_get_settings();
+    $option_name = $settings['option'];
+    $options = get_option( $option_name );
+
+    return isset($options['currency']) ? $options['currency'] : '';
+}
