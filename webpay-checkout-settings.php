@@ -22,7 +22,8 @@ function webpay_checkout_get_settings() {
         'nonce' => 'webpay-checkout-nonce',
 		'group' => 'webpay-checkout-settings-group',
 		'section' => 'webpay-checkout-section',
-		'option_name' => 'webpay-checkout-settings'
+		'option' => 'webpay-checkout-settings',
+        'action' => 'webpay_checkout'
 	];
 }
 
@@ -32,7 +33,7 @@ function webpay_checkout_init() {
 	$slug = $settings['slug'];
 	$group = $settings['group'];
 	$section = $settings['section'];
-    $option_name = $settings['option_name'];
+    $option_name = $settings['option'];
 	$fields = [ 'test-mode', 'currency', 'test-public-key', 'test-private-key', 'public-key', 'private-key' ];
 
 	register_setting( $group, $option_name, 'webpay_validate' );
@@ -108,7 +109,7 @@ function webpay_checkout_section() {
 function webpay_checkout_test_mode($args) {
 
 	$settings = webpay_checkout_get_settings();
-    $option_name = $settings['option_name'];
+    $option_name = $settings['option'];
     $key = $args['field_name'];
 
     $options = get_option( $option_name );
@@ -123,7 +124,7 @@ function webpay_checkout_test_mode($args) {
 
 function webpay_checkout_currency($args) {
 	$settings = webpay_checkout_get_settings();
-    $option_name = $settings['option_name'];
+    $option_name = $settings['option'];
     $key = $args['field_name'];
 
     $options = get_option( $option_name );
@@ -136,7 +137,7 @@ function webpay_checkout_currency($args) {
 
 function webpay_checkout_test_public_key($args) {
 	$settings = webpay_checkout_get_settings();
-    $option_name = $settings['option_name'];
+    $option_name = $settings['option'];
     $key = $args['field_name'];
 
 	$options = get_option( $option_name );
@@ -147,7 +148,7 @@ function webpay_checkout_test_public_key($args) {
 
 function webpay_checkout_test_private_key($args) {
 	$settings = webpay_checkout_get_settings();
-    $option_name = $settings['option_name'];
+    $option_name = $settings['option'];
     $key = $args['field_name'];
 
     $options = get_option( $option_name );
@@ -158,7 +159,7 @@ function webpay_checkout_test_private_key($args) {
 
 function webpay_checkout_public_key($args) {
     $settings = webpay_checkout_get_settings();
-    $option_name = $settings['option_name'];
+    $option_name = $settings['option'];
     $key = $args['field_name'];
 
     $options = get_option( $option_name );
@@ -169,7 +170,7 @@ function webpay_checkout_public_key($args) {
 
 function webpay_checkout_private_key($args) {
     $settings = webpay_checkout_get_settings();
-    $option_name = $settings['option_name'];
+    $option_name = $settings['option'];
     $key = $args['field_name'];
 
     $options = get_option( $option_name );
@@ -182,7 +183,7 @@ function webpay_checkout_private_key($args) {
 function webpay_get_public_key()
 {
     $settings = webpay_checkout_get_settings();
-    $option_name = $settings['option_name'];
+    $option_name = $settings['option'];
     $options = get_option( $option_name );
 
     if (isset($options['test-mode']) && $options['test-mode'] === 'on') {
@@ -194,7 +195,7 @@ function webpay_get_public_key()
 
 function webpay_get_private_key() {
     $settings = webpay_checkout_get_settings();
-    $option_name = $settings['option_name'];
+    $option_name = $settings['option'];
     $options = get_option( $option_name );
 
     if (isset($options['test-mode']) && $options['test-mode'] === 'on') {
