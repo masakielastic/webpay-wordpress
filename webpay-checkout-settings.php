@@ -8,7 +8,6 @@ register_deactivation_hook( __FILE__, function() {
 add_action( 'admin_init', 'webpay_checkout_init' );
 add_action( 'admin_menu', function() {
 
-
     $settings = webpay_checkout_get_settings();
     $slug = $settings['option_name'];
 
@@ -17,14 +16,14 @@ add_action( 'admin_menu', function() {
 } );
 
 function webpay_checkout_get_settings() {
-	return [
+	return array(
 		'slug' => 'webpay-checkout',
         'nonce' => 'webpay-checkout-nonce',
 		'group' => 'webpay-checkout-settings-group',
 		'section' => 'webpay-checkout-section',
 		'option' => 'webpay-checkout-settings',
         'action' => 'webpay_checkout'
-	];
+	);
 }
 
 function webpay_checkout_init() {
@@ -186,11 +185,11 @@ function webpay_get_public_key()
     $option_name = $settings['option'];
     $options = get_option( $option_name );
 
-    if (isset($options['test-mode']) && $options['test-mode'] === 'on') {
-        return isset($options['test-public-key']) ? $options['test-public-key'] : '';
+    if ( isset( $options['test-mode'] ) && $options['test-mode'] === 'on' ) {
+        return isset( $options['test-public-key'] ) ? $options['test-public-key'] : '';
     }
 
-    return isset($options['public-key']) ? $options['public-key'] : '';
+    return isset( $options['public-key'] ) ? $options['public-key'] : '';
 }
 
 function webpay_get_private_key() {
@@ -198,7 +197,7 @@ function webpay_get_private_key() {
     $option_name = $settings['option'];
     $options = get_option( $option_name );
 
-    if (isset($options['test-mode']) && $options['test-mode'] === 'on') {
+    if ( isset( $options['test-mode'] ) && $options['test-mode'] === 'on' ) {
         return isset($options['test-private-key']) ? $options['test-private-key'] : '';
     }
 
@@ -210,5 +209,5 @@ function webpay_get_currency() {
     $option_name = $settings['option'];
     $options = get_option( $option_name );
 
-    return isset($options['currency']) ? $options['currency'] : '';
+    return isset( $options['currency'] ) ? $options['currency'] : '';
 }
