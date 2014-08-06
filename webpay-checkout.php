@@ -8,9 +8,17 @@ function webpay_ajax_response() {
     $settings = webpay_checkout_get_settings();
     check_ajax_referer( $settings['nonce'], 'security' );
 
+    $key = webpay_get_private_key();
+
+    $data = array(
+      'currency' => webpay_get_currency(),
+      'amount' => $_POST['amount']
+    );
+
+    $res = webpay_charges( $key, $data );
+
     header( 'Content-Type: application/json' );
-    $ret = array('msg' => 'ok');
-    wp_send_json( $ret );
+    wp_send_json( $res );
 }
 
 function webpay_checkout_shortcode($atts) {
@@ -42,15 +50,33 @@ jQuery(function($) {
 
     $ret = $('#webpay_result');
 
-     if ( res['msg'] === 'ok' ) {
-       $ret.html( 'ありがとうございました。' );
-     } else {
-       $ret.html( '投稿が失敗しました。' );
-     }
-   
+    if ( res['msg'] === 'ok' ) {
+      $ret.html( 'ありがとうございました。' );
+    } else {
+      $ret.html( '投稿が失敗しました。' );
+    }
 
   }, 'json' );
+
 });
 </script>
 <?php
+}
+
+function webpay_charges($key, $data) {
+    return webpay_post( 'https://api.webpay.jp/v1/charges', $key, $data );
+}
+
+function webpay_post( $url, $key, $data ) {
+
+  $res = wp_remote_post($url, array(
+    'headers' => array('Authorization' => 'Basic '.base64_encode($key.':')),
+    'body' => $data
+  ));
+
+  $code = wp_remote_retrieve_response_code( $res );
+  $body = wp_remote_retrieve_body( $res );
+  $body = json_decode($body, true);
+
+  return array_merge(array('code' => $code), $body);
 }
