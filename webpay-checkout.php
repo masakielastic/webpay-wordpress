@@ -11,8 +11,9 @@ function webpay_ajax_response() {
     $key = webpay_get_private_key();
 
     $data = array(
+      'amount' => $_POST['amount'],
       'currency' => webpay_get_currency(),
-      'amount' => $_POST['amount']
+      'card' => $_POST['token']
     );
 
     $res = webpay_charges( $key, $data );
@@ -38,29 +39,9 @@ function webpay_checkout_shortcode($atts) {
     'amount' => $amount
   ), $json_options );
 
-?>
-<div id="webpay_result" style="color: red"></div>
-<script>
-jQuery(function($) {
-
-  var url = <?php echo $url ?>;
-  var data = <?php echo $json ?>;
-
-  $.post(  url, data, function(res) {
-
-    $ret = $('#webpay_result');
-
-    if ( res['msg'] === 'ok' ) {
-      $ret.html( 'ありがとうございました。' );
-    } else {
-      $ret.html( '投稿が失敗しました。' );
-    }
-
-  }, 'json' );
-
-});
-</script>
-<?php
+  $locale = get_locale() === 'ja' ? 'ja' : 'en';
+  $public_key = webpay_get_public_key();
+  include 'webpay-checkout-view.php';
 }
 
 function webpay_charges($key, $data) {

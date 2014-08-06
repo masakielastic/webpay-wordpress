@@ -179,8 +179,7 @@ function webpay_checkout_private_key($args) {
 }
 
 
-function webpay_get_public_key()
-{
+function webpay_get_public_key() {
     $settings = webpay_checkout_get_settings();
     $option_name = $settings['option'];
     $options = get_option( $option_name );
