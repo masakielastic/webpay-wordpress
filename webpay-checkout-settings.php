@@ -9,7 +9,7 @@ add_action( 'admin_init', 'webpay_checkout_init' );
 add_action( 'admin_menu', function() {
 
     $settings = webpay_checkout_get_settings();
-    $slug = $settings['option_name'];
+    $slug = $settings['slug'];
 
 	add_options_page( __( 'Settings Page for Simple WebPay Checkout', $slug ),
 		'Simple WebPay Checkout', 'manage_options', $slug, 'webpay_checkout_options_page' );
