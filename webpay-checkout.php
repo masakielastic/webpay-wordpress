@@ -1,5 +1,4 @@
 <?php
-
 add_action( 'wp_ajax_webpay_checkout', 'webpay_ajax_response' );
 add_action( 'wp_ajax_nopriv_webpay_checkout', 'webpay_ajax_response' );
 add_shortcode( 'webpay', 'webpay_checkout_shortcode' );
@@ -43,6 +42,12 @@ function webpay_checkout_shortcode($atts) {
     'amount' => $amount
   ), $json_options );
 
+  $slug = $settings['slug'];
+
+  load_plugin_textdomain( $slug, false,
+    dirname(plugin_basename( __FILE__ )). '/languages/'
+  );
+
   $msg = json_encode( array(
     'no_input' => __( 'Input card number', $slug ),
     'success' => __( 'Thank you', $slug ),
@@ -51,6 +56,7 @@ function webpay_checkout_shortcode($atts) {
 
   $locale = get_locale() === 'ja' ? 'ja' : 'en';
   $public_key = webpay_get_public_key();
+
   include 'webpay-checkout-view.php';
 }
 
