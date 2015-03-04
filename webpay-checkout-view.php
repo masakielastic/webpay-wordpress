@@ -39,7 +39,7 @@ jQuery(function($) {
     data['token'] = token;
  
     $.post( url, data, function(res) {
-      console.log(data);
+
       if ( res['code'] === 201 ) {
         $ret.html( msg['success'] );
       } else {
