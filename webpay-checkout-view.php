@@ -25,6 +25,11 @@ jQuery(function($) {
 
   var url = <?php echo $url ?>;
   var data = <?php echo $json ?>;
+  var msg = {
+    'no_input': 'Input card number',
+    'success': 'Thank you',
+    'fail': 'failed'
+  };
 
   $('#webpayDoCheckout').click(function(event) {
     event.preventDefault();
@@ -32,7 +37,7 @@ jQuery(function($) {
     $ret = $('#webpay_result');
 
     if ( token === '' ) {
-      $ret.html( 'カード番号を入力してください。' );
+      $ret.html( msg['no_input'] );
       return false;
     }
 
@@ -41,9 +46,9 @@ jQuery(function($) {
     $.post(  url, data, function(res) {
 
       if ( res['code'] === 201 ) {
-        $ret.html( 'ありがとうございました。' );
+        $ret.html( msg['success'] );
       } else {
-        $ret.html( '投稿が失敗しました。' );
+        $ret.html( msg['fail'] );
       }
       
       return false;
