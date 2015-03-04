@@ -9,7 +9,7 @@
   }
   </script>
   <?php if ($any === 'true') { ?>
-  <p><input id="webpay_user_input" placeholder="<?php echo $placeholder; ?>" type="number" step="100" /></p>
+  <p><input id="webpay_user_input" placeholder="<?php echo $placeholder; ?>" type="number" /></p>
   <?php } ?>
   <script 
     src="https://checkout.webpay.jp/v2/"
