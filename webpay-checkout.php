@@ -23,12 +23,20 @@ function webpay_ajax_response() {
 
 function webpay_checkout_shortcode($atts) {
 
-  $a = shortcode_atts(array(
-    'amount' => 500
-  ), $atts);
-  $amount = $a['amount'];
+  $settings = webpay_checkout_get_settings();
+  $slug = $settings['slug'];
+  load_plugin_textdomain( $slug, false,
+    dirname(plugin_basename( __FILE__ )). '/languages/'
+  );
 
-	$settings = webpay_checkout_get_settings();
+  $a = shortcode_atts(array(
+    'amount' => 500,
+    'label' => __( 'purchase', $slug )
+  ), $atts);
+
+  $amount = $a['amount'];
+  $label = esc_attr($a['label']);
+
   $json_options = 0;
   if (version_compare( PHP_VERSION, '5.3.0' ) >= 0) {
     $json_options |= JSON_HEX_QUOT|JSON_HEX_AMP|JSON_HEX_APOS|JSON_HEX_TAG;
@@ -42,16 +50,10 @@ function webpay_checkout_shortcode($atts) {
     'amount' => $amount
   ), $json_options );
 
-  $slug = $settings['slug'];
-
-  load_plugin_textdomain( $slug, false,
-    dirname(plugin_basename( __FILE__ )). '/languages/'
-  );
-
   $msg = json_encode( array(
     'no_input' => __( 'Input card number', $slug ),
     'success' => __( 'Thank you', $slug ),
-    'fail' => __( 'failed', $slug )
+    'fail' => __( 'Failed', $slug )
   ), $json_options );
 
   $locale = get_locale() === 'ja' ? 'ja' : 'en';

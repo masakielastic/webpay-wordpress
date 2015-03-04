@@ -52,16 +52,20 @@ msgstr "文字数は100文字を超えることができません"
 msgid "See <a href=\"%s\" target=\"_blank\">%s</a> for the details."
 msgstr "詳細は <a href=\"%s\" target=\"_blank\">%s</a> をご参照ください。"
 
-#: webpay-checkout.php:47
+#: webpay-checkout.php:32
+msgid "purchase"
+msgstr "購入する"
+
+#: webpay-checkout.php:55
 msgid "Input card number"
 msgstr "カード番号を入力してください"
 
-#: webpay-checkout.php:48
+#: webpay-checkout.php:56
 msgid "Thank you"
 msgstr "ありがとうございます"
 
-#: webpay-checkout.php:49
-msgid "failed"
+#: webpay-checkout.php:57
+msgid "Failed"
 msgstr "失敗しました"
 
 #. Plugin Name of the plugin/theme

@@ -15,7 +15,7 @@
     data-partial="true"
     data-on-created="onCreate"
   ></script>
-  <input id="webpayDoCheckout" type="submit" value="購入する" />
+  <input id="webpayDoCheckout" type="submit" value="<?php echo $label; ?>" />
 </form>
 
 <div id="webpay_result" style="color: red"></div>
@@ -38,7 +38,7 @@ jQuery(function($) {
 
     data['token'] = token;
  
-    $.post(  url, data, function(res) {
+    $.post( url, data, function(res) {
       console.log(data);
       if ( res['code'] === 201 ) {
         $ret.html( msg['success'] );
