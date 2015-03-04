@@ -30,12 +30,14 @@ function webpay_checkout_shortcode($atts) {
   );
 
   $a = shortcode_atts(array(
-    'amount' => 500,
-    'label' => __( 'purchase', $slug )
+    'amount' => 0,
+    'label' => __( 'purchase', $slug ),
+    'any' => 'false'
   ), $atts);
 
   $amount = $a['amount'];
   $label = esc_attr($a['label']);
+  $any = esc_attr($a['any']);
 
   $json_options = 0;
   if (version_compare( PHP_VERSION, '5.3.0' ) >= 0) {
@@ -50,8 +52,11 @@ function webpay_checkout_shortcode($atts) {
     'amount' => $amount
   ), $json_options );
 
+  $placeholder = esc_attr(__( 'Input amount', $slug ));
+
   $msg = json_encode( array(
     'no_input' => __( 'Input card number', $slug ),
+    'no_amount' => $placeholder,
     'success' => __( 'Thank you', $slug ),
     'fail' => __( 'Failed', $slug )
   ), $json_options );

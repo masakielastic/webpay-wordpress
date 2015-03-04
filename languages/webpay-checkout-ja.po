@@ -56,6 +56,9 @@ msgstr "詳細は <a href=\"%s\" target=\"_blank\">%s</a> をご参照くださ�
 msgid "purchase"
 msgstr "購入する"
 
+msgid "Input amount"
+msgstr "金額を入力してください"
+
 #: webpay-checkout.php:55
 msgid "Input card number"
 msgstr "カード番号を入力してください"
