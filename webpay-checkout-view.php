@@ -4,7 +4,6 @@
 
   function onCreate(data) {
     token = data.id;
-
     return false;
   }
   </script>
@@ -24,12 +23,8 @@
 jQuery(function($) {
 
   var url = <?php echo $url ?>;
-  var data = <?php echo $json ?>;
-  var msg = {
-    'no_input': 'Input card number',
-    'success': 'Thank you',
-    'fail': 'failed'
-  };
+  var data = <?php echo $data ?>;
+  var msg = <?php echo $msg ?>;
 
   $('#webpayDoCheckout').click(function(event) {
     event.preventDefault();
@@ -42,9 +37,9 @@ jQuery(function($) {
     }
 
     data['token'] = token;
-
+ 
     $.post(  url, data, function(res) {
-
+      console.log(data);
       if ( res['code'] === 201 ) {
         $ret.html( msg['success'] );
       } else {

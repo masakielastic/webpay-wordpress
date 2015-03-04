@@ -9,18 +9,9 @@ function webpay_checkout_deactivate() {
     delete_option( $option_name );
 }
 
-function webpay_checkout_menu() {
-    $settings = webpay_checkout_get_settings();
-    $slug = $settings['slug'];
-
-    add_options_page( __( 'Settings Page for Simple WebPay Checkout', $slug ),
-        'Simple WebPay Checkout', 'manage_options', $slug, 'webpay_checkout_options_page'
-    );
-}
-
 function webpay_checkout_get_settings() {
 	return array(
-		'slug' => 'webpay-checkout',
+        'slug' => 'webpay-checkout',
         'nonce' => 'webpay-checkout-nonce',
 		'group' => 'webpay-checkout-settings-group',
 		'section' => 'webpay-checkout-section',
@@ -30,7 +21,6 @@ function webpay_checkout_get_settings() {
 }
 
 function webpay_checkout_init() {
-
 	$settings = webpay_checkout_get_settings();
 	$slug = $settings['slug'];
 	$group = $settings['group'];
@@ -49,6 +39,7 @@ function webpay_checkout_init() {
         __( 'Test Environment', $slug ),
         'webpay_checkout_test_mode', $slug, $section, array( 'field_name' => $fields[0] )
 	);
+
     add_settings_field( $fields[1],
         __( 'Currency', $slug ),
         'webpay_checkout_currency', $slug, $section, array( 'field_name' => $fields[1] )
@@ -62,6 +53,7 @@ function webpay_checkout_init() {
         __( 'Private Key For Test Environment', $slug ),
         'webpay_checkout_test_private_key', $slug, $section, array( 'field_name' => $fields[3] )
     );
+
     add_settings_field( $fields[4], 
         __( 'Public Key For Production Environment', $slug ),
         'webpay_checkout_public_key', $slug, $section, array( 'field_name' => $fields[4] )
@@ -69,6 +61,19 @@ function webpay_checkout_init() {
     add_settings_field( $fields[5],
         __( 'Private Key For Production Environment', $slug ),
         'webpay_checkout_private_key', $slug, $section, array( 'field_name' => $fields[5] )
+    );
+}
+
+function webpay_checkout_menu() {
+    $settings = webpay_checkout_get_settings();
+    $slug = $settings['slug'];
+
+    load_plugin_textdomain( $slug, false,
+        dirname(plugin_basename( __FILE__ )). '/languages/'
+    );
+
+    add_options_page( __( 'Settings Page for Simple WebPay Checkout', $slug ),
+        'Simple WebPay Checkout', 'manage_options', $slug, 'webpay_checkout_options_page'
     );
 }
 
@@ -115,7 +120,7 @@ function webpay_checkout_section() {
 	$slug = $settings['slug'];
     $url = 'https://webpay.jp/settings';
 
-    echo __( 'See <a href="'.$url.'" target="_blank">'.$url.'</a> for the details.', $slug );
+    printf( __( 'See <a href="%s" target="_blank">%s</a> for the details.', $slug ), $url, $url );
 }
 
 function webpay_checkout_test_mode($args) {
