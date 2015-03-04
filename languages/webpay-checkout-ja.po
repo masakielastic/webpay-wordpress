@@ -38,7 +38,7 @@ msgstr "商用環境用公開可能鍵"
 
 #: webpay-checkout-settings.php:62
 msgid "Private Key For Production Environment"
-msgstr "テスト環境用非公開鍵"
+msgstr "商用環境用非公開鍵"
 
 #: webpay-checkout-settings.php:71 webpay-checkout-settings.php:85
 msgid "Settings Page for Simple WebPay Checkout"
