@@ -30,7 +30,11 @@ function webpay_checkout_shortcode($atts) {
   $amount = $a['amount'];
 
 	$settings = webpay_checkout_get_settings();
-  $json_options = JSON_HEX_QUOT|JSON_HEX_AMP|JSON_HEX_APOS|JSON_HEX_TAG;
+  $json_options = 0;
+  if (version_compare(PHP_VERSION, '5.3.0') >= 0) {
+    $json_options |= JSON_HEX_QUOT|JSON_HEX_AMP|JSON_HEX_APOS|JSON_HEX_TAG;
+  }
+
   $url = json_encode( admin_url( 'admin-ajax.php' ), $json_options );
 
   $json = json_encode( array(
@@ -45,7 +49,7 @@ function webpay_checkout_shortcode($atts) {
 }
 
 function webpay_charges($key, $data) {
-    return webpay_post( 'https://api.webpay.jp/v1/charges', $key, $data );
+  return webpay_post( 'https://api.webpay.jp/v1/charges', $key, $data );
 }
 
 function webpay_post( $url, $key, $data ) {
