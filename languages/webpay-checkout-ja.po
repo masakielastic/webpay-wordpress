@@ -73,8 +73,8 @@ msgid "https://github.com/masakielastic/webpay-wordpress"
 msgstr ""
 
 #. Description of the plugin/theme
-msgid "WebPay の決済フォームのショートコードを導入します。"
-msgstr ""
+msgid "Add WebPay Checkout forms using shortcodes."
+msgstr "WebPay の決済フォームのショートコードを導入します。"
 
 #. Author of the plugin/theme
 msgid "Masaki Kagaya"
