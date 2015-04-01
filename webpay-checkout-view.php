@@ -1,13 +1,5 @@
 <div>
 <form id="webpayCheckout" action="#" method="post">
-  <script>
-  var token = '';
-
-  function onCreate(data) {
-    token = data.id;
-    return false;
-  }
-  </script>
   <?php if ($any === 'true') { ?>
   <p><input id="webpay_user_input" placeholder="<?php echo $placeholder; ?>" type="number" /></p>
   <?php } ?>
@@ -17,7 +9,6 @@
     data-key="<?php echo $public_key ?>"
     data-lang="<?php echo $locale ?>"
     data-partial="true"
-    data-on-created="onCreate"
   ></script>
   <?php if ($any === 'true' || $amount > 0) { ?>
   <p><input id="webpayDoCheckout" type="submit" value="<?php echo $label; ?>" /></p>
@@ -47,6 +38,8 @@ jQuery(function($) {
       return false;
     }
     <?php } ?>
+
+    var token = $('#webpayCheckout').serializeArray()[0]['value'];
 
     if ( token === '' ) {
       $ret.html( msg['no_input'] );
