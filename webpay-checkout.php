@@ -17,7 +17,6 @@ function webpay_ajax_response() {
 
   $res = webpay_charges( $key, $data );
 
-  header( 'Content-Type: application/json' );
   wp_send_json( $res );
 }
 
