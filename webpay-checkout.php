@@ -22,6 +22,10 @@ function webpay_ajax_response() {
 
 function webpay_checkout_shortcode($atts) {
 
+  if (!is_ssl()) {
+    return 'SSL/TLS で接続してください。';
+  }
+
   $settings = webpay_checkout_get_settings();
   $slug = $settings['slug'];
   load_plugin_textdomain( $slug, false,
