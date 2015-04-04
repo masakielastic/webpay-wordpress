@@ -53,11 +53,9 @@ function webpay_checkout_shortcode($atts) {
     'amount' => $amount
   ), $json_options );
 
-  $placeholder = esc_attr(__( 'Input amount', $slug ));
-
   $msg = json_encode( array(
     'no_input' => __( 'Input card number', $slug ),
-    'no_amount' => $placeholder,
+    'no_amount' => __( 'Input amount', $slug ),
     'success' => __( 'Thank you', $slug ),
     'fail' => __( 'Failed', $slug )
   ), $json_options );
