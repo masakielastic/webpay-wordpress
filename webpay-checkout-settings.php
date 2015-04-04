@@ -35,23 +35,9 @@ function webpay_checkout_init() {
         'webpay_checkout_section', $slug
     );
 
-	add_settings_field( $fields[0],
-        __( 'Test Environment', $slug ),
-        'webpay_checkout_test_mode', $slug, $section, array( 'field_name' => $fields[0] )
-	);
-
     add_settings_field( $fields[1],
         __( 'Currency', $slug ),
         'webpay_checkout_currency', $slug, $section, array( 'field_name' => $fields[1] )
-    );
-
-    add_settings_field( $fields[2],
-		__( 'Public Key For Test Environment', $slug ),
-        'webpay_checkout_test_public_key', $slug, $section, array( 'field_name' => $fields[2] )
-	);
-    add_settings_field( $fields[3],
-        __( 'Private Key For Test Environment', $slug ),
-        'webpay_checkout_test_private_key', $slug, $section, array( 'field_name' => $fields[3] )
     );
 
     add_settings_field( $fields[4], 
@@ -123,22 +109,6 @@ function webpay_checkout_section() {
     printf( __( 'See <a href="%s" target="_blank">%s</a> for the details.', $slug ), $url, $url );
 }
 
-function webpay_checkout_test_mode($args) {
-
-	$settings = webpay_checkout_get_settings();
-    $option_name = $settings['option'];
-    $key = $args['field_name'];
-
-    $options = get_option( $option_name );
-    $value = empty( $options[$key] ) ? '' : esc_attr( $options[$key] );
-
-    echo '<select name="'.$option_name.'['.$key.']">'
-    .($value === 'off' ? 
-        '<option value="on" >on</option><option value="off" selected="selected">off</option>' :
-        '<option value="on" selected="selected">on</option><option value="off">off</option>')
-    .'</select>';
-}
-
 function webpay_checkout_currency($args) {
 	$settings = webpay_checkout_get_settings();
     $option_name = $settings['option'];
@@ -150,28 +120,6 @@ function webpay_checkout_currency($args) {
     echo '<select name="'.$option_name.'['.$key.']">'
     .'<option value="jpy" selected="selected">jpy</option>'
     .'</select>';
-}
-
-function webpay_checkout_test_public_key($args) {
-	$settings = webpay_checkout_get_settings();
-    $option_name = $settings['option'];
-    $key = $args['field_name'];
-
-	$options = get_option( $option_name );
-	$value = empty( $options[$key] ) ? '' : esc_attr( $options[$key] );
-
-	echo '<input type="text" name="'.$option_name.'['.$key.']" value="'.$value.'" />';
-}
-
-function webpay_checkout_test_private_key($args) {
-	$settings = webpay_checkout_get_settings();
-    $option_name = $settings['option'];
-    $key = $args['field_name'];
-
-    $options = get_option( $option_name );
-    $value = empty( $options[$key] ) ? '' : esc_attr( $options[$key] );
-
-    echo '<input type="text" name="'.$option_name.'['.$key.']" value="'.$value.'" />';
 }
 
 function webpay_checkout_public_key($args) {
@@ -202,10 +150,6 @@ function webpay_get_public_key() {
     $option_name = $settings['option'];
     $options = get_option( $option_name );
 
-    if ( isset( $options['test-mode'] ) && $options['test-mode'] === 'on' ) {
-        return isset( $options['test-public-key'] ) ? $options['test-public-key'] : '';
-    }
-
     return isset( $options['public-key'] ) ? $options['public-key'] : '';
 }
 
@@ -213,10 +157,6 @@ function webpay_get_private_key() {
     $settings = webpay_checkout_get_settings();
     $option_name = $settings['option'];
     $options = get_option( $option_name );
-
-    if ( isset( $options['test-mode'] ) && $options['test-mode'] === 'on' ) {
-        return isset($options['test-private-key']) ? $options['test-private-key'] : '';
-    }
 
     return isset($options['private-key']) ? $options['private-key'] : '';
 }
