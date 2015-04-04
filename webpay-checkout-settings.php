@@ -26,7 +26,7 @@ function webpay_checkout_init() {
 	$group = $settings['group'];
 	$section = $settings['section'];
     $option_name = $settings['option'];
-	$fields = array( 'test-mode', 'currency', 'test-public-key', 'test-private-key', 'public-key', 'private-key' );
+	$fields = array( 'currency', 'public-key', 'private-key' );
 
 	register_setting( $group, $option_name, 'webpay_validate' );
 
