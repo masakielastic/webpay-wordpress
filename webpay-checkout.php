@@ -34,13 +34,11 @@ function webpay_checkout_shortcode($atts) {
 
   $a = shortcode_atts(array(
     'amount' => 0,
-    'label' => __( 'purchase', $slug ),
-    'any' => 'false'
+    'label' => __( 'purchase', $slug )
   ), $atts);
 
   $amount = $a['amount'];
   $label = esc_attr($a['label']);
-  $any = esc_attr($a['any']);
 
   $json_options = 0;
   if (version_compare( PHP_VERSION, '5.3.0' ) >= 0) {

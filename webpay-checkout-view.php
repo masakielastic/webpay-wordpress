@@ -1,8 +1,5 @@
 <div>
 <form id="webpayCheckout" action="#" method="post">
-  <?php if ($any === 'true') { ?>
-  <p><input id="webpay_user_input" placeholder="<?php echo $placeholder; ?>" type="number" /></p>
-  <?php } ?>
   <script 
     src="https://checkout.webpay.jp/v2/"
     class="webpay-button"
@@ -10,11 +7,8 @@
     data-lang="<?php echo $locale ?>"
     data-partial="true"
   ></script>
-  <?php if ($any === 'true' || $amount > 0) { ?>
   <p><input id="webpayDoCheckout" type="submit" value="<?php echo $label; ?>" /></p>
-  <?php } else { ?>
   <p><?php echo $placeholder; ?></p>
-  <?php } ?>
 </form>
 </div>
 
@@ -30,14 +24,6 @@ jQuery(function($) {
     event.preventDefault();
 
     $ret = $('#webpay_result');
-
-    <?php if ($any === 'true') { ?>
-    data['amount'] = $('#webpay_user_input').val();
-    if (data['amount'] === '' || 0 >= data['amount']) {
-      $ret.html( msg['no_amount'] );
-      return false;
-    }
-    <?php } ?>
 
     var token = $('#webpayCheckout').serializeArray()[0]['value'];
 
