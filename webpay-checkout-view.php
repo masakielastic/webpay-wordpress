@@ -19,7 +19,7 @@
 jQuery(function($) {
 
   var url = <?php echo $url ?>;
-  var data = <?php echo $data ?>;
+  var formData = <?php echo $data ?>;
   var msg = <?php echo $msg ?>;
 
   $ret = $('#webpay_result');
@@ -28,11 +28,11 @@ jQuery(function($) {
     event.preventDefault();
 
     <?php if (0 >= $amount) { ?>
-    data['amount'] = $('#amountInput').val();
+    formData['amount'] = $('#amountInput').val();
     <?php } ?>
 
-    if (data['amount'] === '') {
-        $ret.html( msg['no_amount'] );
+    if (formData['amount'] === '') {
+      $ret.html( msg['no_amount'] );
     }
 
     var token = $('#webpayCheckout').serializeArray()[0]['value'];
@@ -42,19 +42,13 @@ jQuery(function($) {
       return false;
     }
 
-    data['token'] = token;
+    formData['token'] = token;
  
-    $.post( url, data, function(res) {
-
-      if ( res['code'] === 201 ) {
-        $ret.html( msg['success'] );
-      } else {
-        $ret.html( msg['fail'] );
-      }
-      
-      return false;
-    }, 'json' );
-
+    $.post( url, formData, function(data, textStatus, jqXHR) {
+      $ret.html( msg['success'] );
+    }, 'json' ).fail(function(jqXHR, textStatus, errorThrown) {
+      $ret.html( msg['fail'] );
+    });
   });
 
 });

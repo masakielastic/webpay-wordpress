@@ -16,6 +16,7 @@ function webpay_ajax_response() {
   );
 
   $res = webpay_charges( $key, $data );
+  http_response_code($res['code']);
 
   wp_send_json( $res );
 }
@@ -81,5 +82,5 @@ function webpay_post( $url, $key, $data ) {
   $body = wp_remote_retrieve_body( $res );
   $body = json_decode( $body, true );
 
-  return array_merge( array( 'code' => $code ), $body );
+  return array_merge( array( 'code' => (int) $code ), $body );
 }
