@@ -5,6 +5,11 @@ add_shortcode( 'webpay', 'webpay_checkout_shortcode' );
 
 function webpay_ajax_response() {
   $settings = webpay_checkout_get_settings();
+  $slug = $settings['slug'];
+  load_plugin_textdomain( $slug, false,
+    dirname(plugin_basename( __FILE__ )). '/languages/'
+  );
+
   check_ajax_referer( $settings['nonce'], 'security' );
 
   $key = webpay_get_private_key();
@@ -18,7 +23,12 @@ function webpay_ajax_response() {
   $res = webpay_charges( $key, $data );
   http_response_code($res['code']);
 
-  wp_send_json( $res );
+  if (300 >= $res['code'] && $res['code'] >= 200) {
+      wp_send_json( array( 'msg' => __( 'Thank you', $slug ) ) );
+  } else {
+      wp_send_json( array( 'msg' => __( 'Failed', $slug ) ) );
+  }
+
 }
 
 function webpay_checkout_shortcode($atts) {
@@ -56,9 +66,7 @@ function webpay_checkout_shortcode($atts) {
 
   $msg = json_encode( array(
     'no_input' => __( 'Input card number', $slug ),
-    'no_amount' => __( 'Input amount', $slug ),
-    'success' => __( 'Thank you', $slug ),
-    'fail' => __( 'Failed', $slug )
+    'no_amount' => __( 'Input amount', $slug )
   ), $json_options );
 
   $locale = get_locale() === 'ja' ? 'ja' : 'en';

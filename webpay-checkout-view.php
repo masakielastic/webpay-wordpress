@@ -20,9 +20,8 @@ jQuery(function($) {
 
   var url = <?php echo $url ?>;
   var formData = <?php echo $data ?>;
-  var msg = <?php echo $msg ?>;
 
-  $ret = $('#webpay_result');
+  $msg = $('#webpay_result');
 
   $('#webpayDoCheckout').click(function(event) {
     event.preventDefault();
@@ -32,22 +31,22 @@ jQuery(function($) {
     <?php } ?>
 
     if (formData['amount'] === '') {
-      $ret.html( msg['no_amount'] );
+      $msg.html( msg['no_amount'] );
     }
 
     var token = $('#webpayCheckout').serializeArray()[0]['value'];
 
     if ( token === '' ) {
-      $ret.html( msg['no_input'] );
+      $msg.html( msg['no_input'] );
       return false;
     }
 
     formData['token'] = token;
  
     $.post( url, formData, function(data, textStatus, jqXHR) {
-      $ret.html( msg['success'] );
+      $msg.html( data['msg'] );
     }, 'json' ).fail(function(jqXHR, textStatus, errorThrown) {
-      $ret.html( msg['fail'] );
+      $msg.html( jqXHR.responseJSON['msg'] );
     });
   });
 
