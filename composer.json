@@ -1,0 +1,5 @@
+{
+    "require": {
+        "webpay/webpay": "~2.2.2"
+    }
+}
