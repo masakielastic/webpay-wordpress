@@ -1,7 +1,9 @@
 <?php
-register_deactivation_hook( __FILE__, 'webpay_checkout_deactivate' );
-add_action( 'admin_init', 'webpay_checkout_init' );
-add_action( 'admin_menu', 'webpay_checkout_menu' );
+if ( is_admin() ) {
+    register_deactivation_hook( __FILE__, 'webpay_checkout_deactivate' );
+    add_action( 'admin_menu', 'webpay_checkout_admin_menu' );
+    add_action( 'admin_init', 'webpay_checkout_admin_init' );
+}
 
 function webpay_checkout_deactivate() {
     $settings = webpay_checkout_get_settings();
@@ -20,7 +22,7 @@ function webpay_checkout_get_settings() {
 	);
 }
 
-function webpay_checkout_init() {
+function webpay_checkout_admin_init() {
 	$settings = webpay_checkout_get_settings();
 	$slug = $settings['slug'];
 	$group = $settings['group'];
@@ -50,7 +52,7 @@ function webpay_checkout_init() {
     );
 }
 
-function webpay_checkout_menu() {
+function webpay_checkout_admin_menu() {
     $settings = webpay_checkout_get_settings();
     $slug = $settings['slug'];
 
