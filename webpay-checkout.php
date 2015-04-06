@@ -1,14 +1,13 @@
 <?php
 function webpay_ajax_response() {
-  $settings = webpay_checkout_get_settings();
-  $slug = $settings['slug'];
+  $slug = webpay_checkout_get_settings('slug');
   load_plugin_textdomain( $slug, false,
     dirname(plugin_basename( __FILE__ )). '/languages/'
   );
 
-  if (!check_ajax_referer( $settings['nonce'], 'security', false )) {
+  if (!check_ajax_referer( webpay_checkout_get_settings('nonce'), 'security', false )) {
     http_response_code(400);
-    wp_send_json( array( 'msg' =>  'nonce が一致しません。' , ) );
+    wp_send_json( array( 'msg' =>  'nonce が一致しません。' ) );
   }
 
   $key = webpay_get_private_key();
