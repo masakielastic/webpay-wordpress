@@ -20,14 +20,18 @@ function webpay_ajax_response() {
     'card' => $_POST['token']
   );
 
-  $res = webpay_charges( $key, $data );
-  http_response_code($res['code']);
-
-  if (300 >= $res['code'] && $res['code'] >= 200) {
-      wp_send_json( array( 'msg' => __( 'Thank you', $slug ) ) );
-  } else {
-      wp_send_json( array( 'msg' => __( 'Failed', $slug ) ) );
+  try {
+    $webpay = new WebPay\WebPay($key);
+    $webpay->charge->create($data);
+    $status = 200;
+    $msg = __( 'Thank you', $slug );
+  } catch (\Exception $e) {
+    $status = $e->getStatus();
+    $msg = __( 'Failed', $slug ).' '.$e->getMessage();
   }
+
+  http_response_code($status);
+  wp_send_json( array( 'msg' =>  $msg ) );
 
 }
 
@@ -73,22 +77,4 @@ function webpay_checkout_shortcode($atts) {
   $public_key = webpay_get_public_key();
 
   include 'webpay-checkout-view.php';
-}
-
-function webpay_charges($key, $data) {
-  return webpay_post( 'https://api.webpay.jp/v1/charges', $key, $data );
-}
-
-function webpay_post( $url, $key, $data ) {
-
-  $res = wp_remote_post( $url, array(
-    'headers' => array( 'Authorization' => 'Basic '.base64_encode( $key.':' ) ),
-    'body' => $data
-  ));
-
-  $code = wp_remote_retrieve_response_code( $res );
-  $body = wp_remote_retrieve_body( $res );
-  $body = json_decode( $body, true );
-
-  return array_merge( array( 'code' => (int) $code ), $body );
 }

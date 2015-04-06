@@ -11,5 +11,6 @@ Text Domain: webpay-checkout
 Domain Path: /languages
 */
 
+require_once __DIR__.'/vendor/autoload.php';
 require_once( dirname(__FILE__) . '/webpay-checkout-settings.php' );
 require_once( dirname(__FILE__) . '/webpay-checkout.php' );
