@@ -14,14 +14,14 @@
 </form>
 </div>
 
-<div id="webpay_result" style="color: red"></div>
+<div id="webpayAlert" style="color: red"></div>
 <script>
 jQuery(function($) {
 
   var url = <?php echo $url ?>;
   var formData = <?php echo $data ?>;
 
-  $msg = $('#webpay_result');
+  $msg = $('#webpayAlert');
 
   $('#webpayDoCheckout').click(function(event) {
     event.preventDefault();
