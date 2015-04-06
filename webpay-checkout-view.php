@@ -16,6 +16,8 @@
 
 <div id="webpayAlert" style="color: red"></div>
 <script>
+// WebPay.testMode = true;
+
 jQuery(function($) {
 
   var url = <?php echo $url ?>;
