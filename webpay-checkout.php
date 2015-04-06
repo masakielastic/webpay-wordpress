@@ -1,8 +1,4 @@
 <?php
-add_action( 'wp_ajax_webpay_checkout', 'webpay_ajax_response' );
-add_action( 'wp_ajax_nopriv_webpay_checkout', 'webpay_ajax_response' );
-add_shortcode( 'webpay', 'webpay_checkout_shortcode' );
-
 function webpay_ajax_response() {
   $settings = webpay_checkout_get_settings();
   $slug = $settings['slug'];

@@ -1,10 +1,4 @@
 <?php
-if ( is_admin() ) {
-    register_deactivation_hook( __FILE__, 'webpay_checkout_deactivate' );
-    add_action( 'admin_menu', 'webpay_checkout_admin_menu' );
-    add_action( 'admin_init', 'webpay_checkout_admin_init' );
-}
-
 function webpay_checkout_deactivate() {
     $option_name = webpay_checkout_get_settings('option_name');
     delete_option( $option_name );
