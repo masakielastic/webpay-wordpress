@@ -47,18 +47,15 @@ function webpay_checkout_shortcode($atts) {
     dirname(plugin_basename( __FILE__ )). '/languages/'
   );
 
-  $a = shortcode_atts(array(
+  $ret = shortcode_atts(array(
     'amount' => 0,
     'label' => __( 'purchase', $slug )
   ), $atts);
 
-  $amount = $a['amount'];
-  $label = esc_attr($a['label']);
+  $amount = $ret['amount'];
+  $label = esc_attr( $ret['label'] );
 
-  $json_options = 0;
-  if (version_compare( PHP_VERSION, '5.3.0' ) >= 0) {
-    $json_options |= JSON_HEX_QUOT|JSON_HEX_AMP|JSON_HEX_APOS|JSON_HEX_TAG;
-  }
+  $json_options = JSON_HEX_QUOT|JSON_HEX_AMP|JSON_HEX_APOS|JSON_HEX_TAG;
 
   $url = json_encode( admin_url( 'admin-ajax.php' ), $json_options );
 
