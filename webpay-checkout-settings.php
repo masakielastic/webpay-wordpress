@@ -155,25 +155,19 @@ function webpay_checkout_get_settings($key = null) {
 }
 
 function webpay_get_public_key() {
-    $settings = webpay_checkout_get_settings();
-    $option_name = $settings['option'];
-    $options = get_option( $option_name );
+    $options = get_option( webpay_checkout_get_settings('option') );
 
     return isset( $options['public-key'] ) ? $options['public-key'] : '';
 }
 
 function webpay_get_private_key() {
-    $settings = webpay_checkout_get_settings();
-    $option_name = $settings['option'];
-    $options = get_option( $option_name );
+    $options = get_option( webpay_checkout_get_settings('option') );
 
     return isset($options['private-key']) ? $options['private-key'] : '';
 }
 
 function webpay_get_currency() {
-    $settings = webpay_checkout_get_settings();
-    $option_name = $settings['option'];
-    $options = get_option( $option_name );
+    $options = get_option( webpay_checkout_get_settings('option') );
 
     return isset( $options['currency'] ) ? $options['currency'] : '';
 }
