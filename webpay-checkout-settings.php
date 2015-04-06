@@ -35,18 +35,18 @@ function webpay_checkout_init() {
         'webpay_checkout_section', $slug
     );
 
-    add_settings_field( $fields[1],
+    add_settings_field( $fields[0],
         __( 'Currency', $slug ),
-        'webpay_checkout_currency', $slug, $section, array( 'field_name' => $fields[1] )
+        'webpay_checkout_currency', $slug, $section, array( 'field_name' => $fields[0] )
     );
 
-    add_settings_field( $fields[4], 
+    add_settings_field( $fields[1],
         __( 'Public Key For Production Environment', $slug ),
-        'webpay_checkout_public_key', $slug, $section, array( 'field_name' => $fields[4] )
+        'webpay_checkout_public_key', $slug, $section, array( 'field_name' => $fields[1] )
     );
-    add_settings_field( $fields[5],
+    add_settings_field( $fields[2],
         __( 'Private Key For Production Environment', $slug ),
-        'webpay_checkout_private_key', $slug, $section, array( 'field_name' => $fields[5] )
+        'webpay_checkout_private_key', $slug, $section, array( 'field_name' => $fields[2] )
     );
 }
 
