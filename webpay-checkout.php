@@ -7,7 +7,9 @@ function webpay_ajax_response() {
 
   if (!check_ajax_referer( webpay_checkout_get_settings('nonce'), 'security', false )) {
     http_response_code(400);
-    wp_send_json( array( 'msg' =>  'nonce が一致しません。' ) );
+    wp_send_json( array(
+      'msg' =>  'nonce が一致しません。'
+    ) );
   }
 
   $key = webpay_get_private_key();
@@ -38,8 +40,7 @@ function webpay_checkout_shortcode($atts) {
     return 'SSL/TLS で接続してください。';
   }
 
-  $settings = webpay_checkout_get_settings();
-  $slug = $settings['slug'];
+  $slug = webpay_checkout_get_settings('slug');
   load_plugin_textdomain( $slug, false,
     dirname(plugin_basename( __FILE__ )). '/languages/'
   );
@@ -57,8 +58,8 @@ function webpay_checkout_shortcode($atts) {
   $url = json_encode( admin_url( 'admin-ajax.php' ), $json_options );
 
   $data = json_encode( array(
-    'security' => wp_create_nonce( $settings['nonce'] ),
-    'action' => $settings['action'],
+    'security' => wp_create_nonce( webpay_checkout_get_settings('nonce') ),
+    'action' => webpay_checkout_get_settings('action'),
     'amount' => $amount
   ), $json_options );
 
