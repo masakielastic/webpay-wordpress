@@ -11,15 +11,17 @@ function webpay_checkout_deactivate() {
     delete_option( $option_name );
 }
 
-function webpay_checkout_get_settings() {
-	return array(
-        'slug' => 'webpay-checkout',
-        'nonce' => 'webpay-checkout-nonce',
-		'group' => 'webpay-checkout-settings-group',
-		'section' => 'webpay-checkout-section',
-		'option' => 'webpay-checkout-settings',
-        'action' => 'webpay_checkout'
-	);
+function webpay_checkout_admin_menu() {
+    $settings = webpay_checkout_get_settings();
+    $slug = $settings['slug'];
+
+    load_plugin_textdomain( $slug, false,
+        dirname(plugin_basename( __FILE__ )). '/languages/'
+    );
+
+    add_options_page( __( 'Settings Page for Simple WebPay Checkout', $slug ),
+        'Simple WebPay Checkout', 'manage_options', $slug, 'webpay_checkout_options_page'
+    );
 }
 
 function webpay_checkout_admin_init() {
@@ -49,19 +51,6 @@ function webpay_checkout_admin_init() {
     add_settings_field( $fields[2],
         __( 'Private Key For Production Environment', $slug ),
         'webpay_checkout_private_key', $slug, $section, array( 'field_name' => $fields[2] )
-    );
-}
-
-function webpay_checkout_admin_menu() {
-    $settings = webpay_checkout_get_settings();
-    $slug = $settings['slug'];
-
-    load_plugin_textdomain( $slug, false,
-        dirname(plugin_basename( __FILE__ )). '/languages/'
-    );
-
-    add_options_page( __( 'Settings Page for Simple WebPay Checkout', $slug ),
-        'Simple WebPay Checkout', 'manage_options', $slug, 'webpay_checkout_options_page'
     );
 }
 
@@ -146,6 +135,24 @@ function webpay_checkout_private_key($args) {
     echo '<input type="text" name="'.$option_name.'['.$key.']" value="'.$value.'" />';
 }
 
+function webpay_checkout_get_settings($key = null) {
+    $sets = array(
+        'slug' => 'webpay-checkout',
+        'nonce' => 'webpay-checkout-nonce',
+        'group' => 'webpay-checkout-settings-group',
+        'section' => 'webpay-checkout-section',
+        'option' => 'webpay-checkout-settings',
+        'action' => 'webpay_checkout'
+    );
+
+    if (empty($key)) {
+        return $sets;
+    } else if (isset($sets[$key])) {
+        return $sets[$key];
+    }
+
+    return null;
+}
 
 function webpay_get_public_key() {
     $settings = webpay_checkout_get_settings();
