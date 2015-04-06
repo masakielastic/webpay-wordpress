@@ -1,11 +1,16 @@
 <?php
 function webpay_ajax_response() {
+
+  if (!is_ssl()) {
+    wp_send_json( array( 'msg' => 'SSL/TLS で送信してください。') );
+  }
+
   $slug = webpay_checkout_get_settings('slug');
   load_plugin_textdomain( $slug, false,
     dirname(plugin_basename( __FILE__ )). '/languages/'
   );
 
-  if (!check_ajax_referer( webpay_checkout_get_settings('nonce'), 'security', false )) {
+  if (!wp_verify_nonce( $_POST['security'], webpay_checkout_get_settings('nonce') )) {
     http_response_code(400);
     wp_send_json( array(
       'msg' =>  'nonce が一致しません。'
