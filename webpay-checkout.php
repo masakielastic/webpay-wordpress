@@ -6,7 +6,10 @@ function webpay_ajax_response() {
     dirname(plugin_basename( __FILE__ )). '/languages/'
   );
 
-  check_ajax_referer( $settings['nonce'], 'security' );
+  if (!check_ajax_referer( $settings['nonce'], 'security', false )) {
+    http_response_code(400);
+    wp_send_json( array( 'msg' =>  'nonce が一致しません。' , ) );
+  }
 
   $key = webpay_get_private_key();
 
@@ -28,7 +31,6 @@ function webpay_ajax_response() {
 
   http_response_code($status);
   wp_send_json( array( 'msg' =>  $msg ) );
-
 }
 
 function webpay_checkout_shortcode($atts) {

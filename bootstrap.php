@@ -20,8 +20,8 @@ if ( is_admin() ) {
     register_deactivation_hook( __FILE__, 'webpay_checkout_deactivate' );
     add_action( 'admin_menu', 'webpay_checkout_admin_menu' );
     add_action( 'admin_init', 'webpay_checkout_admin_init' );
-} else {
-    add_action( 'wp_ajax_webpay_checkout', 'webpay_ajax_response' );
-    add_action( 'wp_ajax_nopriv_webpay_checkout', 'webpay_ajax_response' );
-    add_shortcode( 'webpay', 'webpay_checkout_shortcode' );
 }
+
+add_action( 'wp_ajax_webpay_checkout', 'webpay_ajax_response' );
+add_action( 'wp_ajax_nopriv_webpay_checkout', 'webpay_ajax_response' );
+add_shortcode( 'webpay', 'webpay_checkout_shortcode' );
