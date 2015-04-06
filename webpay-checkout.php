@@ -55,7 +55,7 @@ function webpay_checkout_shortcode($atts) {
   $amount = $ret['amount'];
   $label = esc_attr( $ret['label'] );
 
-  $json_options = JSON_HEX_QUOT|JSON_HEX_AMP|JSON_HEX_APOS|JSON_HEX_TAG;
+  $json_options = JSON_HEX_QUOT | JSON_HEX_AMP | JSON_HEX_APOS | JSON_HEX_TAG;
 
   $url = json_encode( admin_url( 'admin-ajax.php' ), $json_options );
 
