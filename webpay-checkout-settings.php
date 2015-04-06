@@ -6,14 +6,12 @@ if ( is_admin() ) {
 }
 
 function webpay_checkout_deactivate() {
-    $settings = webpay_checkout_get_settings();
-    $option_name = $settings['option_name'];
+    $option_name = webpay_checkout_get_settings('option_name');
     delete_option( $option_name );
 }
 
 function webpay_checkout_admin_menu() {
-    $settings = webpay_checkout_get_settings();
-    $slug = $settings['slug'];
+    $slug = webpay_checkout_get_settings('slug');
 
     load_plugin_textdomain( $slug, false,
         dirname(plugin_basename( __FILE__ )). '/languages/'
@@ -24,12 +22,23 @@ function webpay_checkout_admin_menu() {
     );
 }
 
+function webpay_checkout_options_page() {
+    $slug = webpay_checkout_get_settings('slug');
+    $group = webpay_checkout_get_settings('group');
+
+    echo '<h2>'.__( 'Settings Page for Simple WebPay Checkout', $slug ).'</h2>';
+    echo '<form action="options.php" method="POST">';
+    do_settings_sections( $slug );
+    settings_fields( $group );
+    submit_button();
+    echo '</form>';
+}
+
 function webpay_checkout_admin_init() {
-	$settings = webpay_checkout_get_settings();
-	$slug = $settings['slug'];
-	$group = $settings['group'];
-	$section = $settings['section'];
-    $option_name = $settings['option'];
+	$slug = webpay_checkout_get_settings('slug');
+	$group = webpay_checkout_get_settings('group');
+	$section = webpay_checkout_get_settings('section');
+    $option_name = webpay_checkout_get_settings('option');
 	$fields = array( 'currency', 'public-key', 'private-key' );
 
 	register_setting( $group, $option_name, 'webpay_validate' );
@@ -54,23 +63,9 @@ function webpay_checkout_admin_init() {
     );
 }
 
-function webpay_checkout_options_page() {
-	$settings = webpay_checkout_get_settings();
-	$slug = $settings['slug'];
-	$group = $settings['group'];
-
-	echo '<h2>'.__( 'Settings Page for Simple WebPay Checkout', $slug ).'</h2>';
-    echo '<form action="options.php" method="POST">';
-    do_settings_sections( $slug );
-    settings_fields( $group );
-    submit_button();
-    echo '</form>';
-}
-
 function webpay_validate( $input ) {
 
-    $settings = webpay_checkout_get_settings();
-    $slug = $settings['slug'];
+    $slug = webpay_checkout_get_settings('slug');
 
     foreach ($input as $key => $value) {
 
@@ -93,16 +88,14 @@ function webpay_validate( $input ) {
 }
 
 function webpay_checkout_section() {
-	$settings = webpay_checkout_get_settings();
-	$slug = $settings['slug'];
+	$slug = webpay_checkout_get_settings('slug');
     $url = 'https://webpay.jp/settings';
 
     printf( __( 'See <a href="%s" target="_blank">%s</a> for the details.', $slug ), $url, $url );
 }
 
 function webpay_checkout_currency($args) {
-	$settings = webpay_checkout_get_settings();
-    $option_name = $settings['option'];
+    $option_name = webpay_checkout_get_settings('option');
     $key = $args['field_name'];
 
     $options = get_option( $option_name );
@@ -114,8 +107,7 @@ function webpay_checkout_currency($args) {
 }
 
 function webpay_checkout_public_key($args) {
-    $settings = webpay_checkout_get_settings();
-    $option_name = $settings['option'];
+    $option_name = webpay_checkout_get_settings('option');
     $key = $args['field_name'];
 
     $options = get_option( $option_name );
@@ -125,8 +117,7 @@ function webpay_checkout_public_key($args) {
 }
 
 function webpay_checkout_private_key($args) {
-    $settings = webpay_checkout_get_settings();
-    $option_name = $settings['option'];
+    $option_name = webpay_checkout_get_settings('option');
     $key = $args['field_name'];
 
     $options = get_option( $option_name );
